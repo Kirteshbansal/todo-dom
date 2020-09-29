@@ -7,11 +7,17 @@ const projectForm = document.getElementById("project-form");
 const projectInput = document.getElementById("project-input");
 const projectsList = document.getElementById("projects-list");
 const deleteBtn = document.getElementById("project-delete-btn");
+const todoSection = document.getElementById("todo-container");
+const projectTitle = document.getElementById("project-todo-list");
+const todosContainer = document.getElementById("todos");
+const todoForm = document.getElementById("todo-form");
+const todoInput = document.getElementById("todo-input");
 
 // Eventlisteners
 projectForm.addEventListener("submit", addProject);
 projectsList.addEventListener("change", selectProject);
 deleteBtn.addEventListener("click", deleteProject);
+todoForm.addEventListener("submit", addTodo);
 
 // functions
 // Add a project into data
@@ -71,6 +77,50 @@ function deleteProject(e) {
     delete todoAppData[selectedProjectName];
     projectsList.removeChild(projectsList.options[projectsList.selectedIndex]);
     projectTitle.innerHTML = "Not selected";
+    todosContainer.innerHTML = "";
+  }
+}
+
+// Add a todo to selected project
+function addTodo(e) {
+  e.preventDefault();
+  if (selectedProjectName && selectedProjectId) {
+    if (todoInput.value != "" && todoInput.value != null) {
+      const todo = createTodo(todoInput.value);
+      todoAppData[selectedProjectId].todos.push(todo);
+      displaytodo(selectedProjectId);
+      todoInput.value = null;
+    } else {
+      alert(`Please enter a valid todo name.`);
+    }
+  } else {
+    alert("Select a project first.");
+  }
+}
+
+// Create a todo
+function createTodo(value) {
+  let keyId = Date.now().toString();
+  return { todoId: keyId, todoName: value };
+}
+
+// Display the available todos
+function displaytodo(projectId) {
+  let template = ``;
+  if (todoAppData[projectId].todos.length > 0) {
+    return todoAppData[projectId].todos.forEach((t) => {
+      template = template.concat(`<div class="d-flex justify-content-between m-1 mt-3">
+    <p class="text-white text-size">${t.todoName}</p>
+    <div id=${t.todoId} class="buttons">
+    <button class="btn btn-sm btn-outline-info edit-todo">Edit</button>
+    <button class="btn btn-sm btn-outline-danger delete-todo">Delete</button>
+    </div>
+    </div>`);
+      todosContainer.innerHTML = template;
+      deleteTodo();
+      editTodo();
+    });
+  } else {
     todosContainer.innerHTML = "";
   }
 }
