@@ -29,7 +29,45 @@
         </div>
       </div>
     </header>
-
+    <!-- main  -->
+    <section class="container">
+      <!-- Projects container -->
+      <div class="d-flex justify-content-md-center">
+        <div class="col-md-6 p-5 mr-3 my-3 border shadow rounded">
+          <h2 class="text-white text-center p-2">My Projects</h2>
+          <form action="" id="project-form">
+            <input
+              type="text"
+              class="form-control"
+              id="project-input"
+              placeholder="Enter new project"
+              aria-label="new project name"
+            />
+            <button
+              class="btn btn-block btn-outline-info my-3"
+              aria-label="create new project"
+              id="add-project-btn"
+            >
+              Add
+            </button>
+          </form>
+          <hr class="border-white" />
+          <!-- <h4 class="my-3 text-white">Select your project:</h4> -->
+          <div class="input-group">
+            <select id="projects-list" class="custom-select" name="projects">
+              <option value="" hidden>Select your project</option>
+            </select>
+            <button
+              class="btn btn-md btn-outline-danger ml-2 my-auto"
+              aria-label="delete project"
+              id="project-delete-btn"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- BootStrap scripts -->
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
