@@ -66,6 +66,37 @@
             </button>
           </div>
         </div>
+        <!-- Todos container -->
+        <div class="col-md-6 p-5 ml-3 my-3 border shadow rounded">
+          <h2 class="task-list-title text-white text-center p-2">My Todos</h2>
+          <div id="todo-container">
+            <div>
+              <form action="" id="todo-form">
+                <input
+                  type="text"
+                  id="todo-input"
+                  class="form-control"
+                  placeholder="Enter new todo"
+                  aria-label="new todo name"
+                />
+                <button
+                  class="btn btn-block btn-outline-info my-3"
+                  aria-label="create new todo"
+                >
+                  Add
+                </button>
+              </form>
+            </div>
+            <hr class="border-white" />
+            <div class="container d-flex justify-content-center">
+              <h3 class="col-md-6 text-white">Project:</h3>
+              <h3 class="list-title text-white col-md-6" id="project-todo-list">
+                Not selected
+              </h3>
+            </div>
+            <div id="todos"></div>
+          </div>
+        </div>
       </div>
     </section>
     <!-- BootStrap scripts -->
