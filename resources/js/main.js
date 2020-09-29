@@ -1,6 +1,7 @@
 let todoAppData = {};
 let selectedProjectId;
 let selectedProjectName;
+let selectedTodoId;
 
 // Query selecters
 const projectForm = document.getElementById("project-form");
@@ -123,4 +124,25 @@ function displaytodo(projectId) {
   } else {
     todosContainer.innerHTML = "";
   }
+}
+
+//  Delete a todo
+function deleteTodo() {
+  document
+    .querySelectorAll(".delete-todo")
+    .forEach((b) => b.addEventListener("click", deleteSelectedTodo));
+}
+
+// Supportive function to delete a todo
+function deleteSelectedTodo(e) {
+  let selectedTodoIndex = 0;
+  todoAppData[selectedProjectId].todos.some((t, index) => {
+    if (t.todoId == e.target.parentElement.getAttribute("id")) {
+      alert(`${t.todoName} todo is deleted.`);
+      selectedTodoIndex = index;
+      todoAppData[selectedProjectId].todos.splice(selectedTodoIndex, 1);
+      return true;
+    }
+  });
+  displaytodo(selectedProjectId);
 }
