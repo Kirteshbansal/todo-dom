@@ -11,6 +11,7 @@ const deleteBtn = document.getElementById("project-delete-btn");
 // Eventlisteners
 projectForm.addEventListener("submit", addProject);
 projectsList.addEventListener("change", selectProject);
+deleteBtn.addEventListener("click", deleteProject);
 
 // functions
 // Add a project into data
@@ -60,4 +61,16 @@ function selectProject(e) {
     projectsList.options[projectsList.selectedIndex].innerHTML;
   projectTitle.innerHTML = selectedProjectName;
   displaytodo(selectedProjectId);
+}
+
+// Delete selected project
+function deleteProject(e) {
+  if (selectedProjectId != null && selectedProjectName != null) {
+    alert(`${selectedProjectName} project is deleted.`);
+    delete todoAppData[selectedProjectId];
+    delete todoAppData[selectedProjectName];
+    projectsList.removeChild(projectsList.options[projectsList.selectedIndex]);
+    projectTitle.innerHTML = "Not selected";
+    todosContainer.innerHTML = "";
+  }
 }
