@@ -146,3 +146,24 @@ function deleteSelectedTodo(e) {
   });
   displaytodo(selectedProjectId);
 }
+
+// Edit a todo
+function editTodo() {
+  document
+    .querySelectorAll(".edit-todo")
+    .forEach((b) => b.addEventListener("click", editSelectedTodo));
+}
+
+//  Supportive function to edit a todo
+function editSelectedTodo(e) {
+  todoInput.value = e.target.parentElement.previousElementSibling.innerHTML;
+  let selectedTodoIndex = 0;
+  todoAppData[selectedProjectId].todos.some((t, index) => {
+    if (t.todoId == e.target.parentElement.getAttribute("id")) {
+      selectedTodoIndex = index;
+      todoAppData[selectedProjectId].todos.splice(selectedTodoIndex, 1);
+      return true;
+    }
+  });
+  displaytodo(selectedProjectId);
+}
