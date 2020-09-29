@@ -1,4 +1,6 @@
 let todoAppData = {};
+let selectedProjectId;
+let selectedProjectName;
 
 // Query selecters
 const projectForm = document.getElementById("project-form");
@@ -8,6 +10,7 @@ const deleteBtn = document.getElementById("project-delete-btn");
 
 // Eventlisteners
 projectForm.addEventListener("submit", addProject);
+projectsList.addEventListener("change", selectProject);
 
 // functions
 // Add a project into data
@@ -47,4 +50,14 @@ function displayProject(key, value) {
   projectElement.classList.add("project-element");
   projectElement.innerHTML = value.projectName;
   projectsList.appendChild(projectElement);
+}
+
+// Select a project
+function selectProject(e) {
+  selectedProjectId =
+    projectsList.options[projectsList.selectedIndex].dataset.projectId;
+  selectedProjectName =
+    projectsList.options[projectsList.selectedIndex].innerHTML;
+  projectTitle.innerHTML = selectedProjectName;
+  displaytodo(selectedProjectId);
 }
