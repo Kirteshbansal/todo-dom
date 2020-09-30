@@ -15,6 +15,8 @@ const todoForm = document.getElementById("todo-form");
 const todoInput = document.getElementById("todo-input");
 const filterTodos = document.getElementById("filter-completed-todos");
 const showCompletedTodos = document.getElementById("show-comp-todo");
+const UpdateTodo = document.getElementById("todo-update");
+const saveUpdate = document.getElementById("save-changes");
 
 // Eventlisteners
 projectForm.addEventListener("submit", addProject);
@@ -146,17 +148,17 @@ function editTodo() {
 
 //  Supportive function to edit a todo
 function editSelectedTodo(e) {
-  todoInput.value = e.target.parentElement.previousElementSibling.innerHTML;
-  confirm("Are you sure to update.");
-  let selectedTodoIndex = 0;
-  todoAppData[selectedProjectId].todos.some((t, index) => {
-    if (t.todoId == e.target.parentElement.getAttribute("id")) {
-      selectedTodoIndex = index;
-      todoAppData[selectedProjectId].todos.splice(selectedTodoIndex, 1);
-      return true;
-    }
+  selectedTodoId = e.target.parentElement.getAttribute("id");
+  UpdateTodo.value = e.target.parentElement.previousElementSibling.innerHTML;
+  saveUpdate.addEventListener("click", (e) => {
+    const newTodoValue = UpdateTodo.value;
+    todoAppData[selectedProjectId].todos.forEach((t) => {
+      if (t.todoId === selectedTodoId) {
+        t.todoName = newTodoValue;
+        displaytodo(selectedProjectId);
+      }
+    });
   });
-  displaytodo(selectedProjectId);
 }
 
 // Mark a todo complete
@@ -208,7 +210,7 @@ function showcaseTodos(data) {
         <p class="text-white text-size">${t.todoName}</p>
         <div id=${t.todoId} class="buttons">
         <button class="btn btn-sm btn-outline-success done-todo">${status}</button>
-        <button class="btn btn-sm btn-outline-info edit-todo">Edit</button>
+        <button type="button" class="btn btn-sm btn-outline-info edit-todo" data-toggle="modal" data-target="#exampleModalCenter">Edit</button>
         <button class="btn btn-sm btn-outline-danger delete-todo">Delete</button>
         </div>
         </div>`);
