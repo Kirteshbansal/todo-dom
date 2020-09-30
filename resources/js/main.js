@@ -206,8 +206,8 @@ function showcaseTodos(data) {
   let template = ``;
   return data.forEach((t) => {
     let status = t.completed === true ? "Undone" : "Done";
-    template = template.concat(`<div class="d-flex justify-content-between m-1 mt-2">
-        <p class="text-white text-size">${t.todoName}</p>
+    template = template.concat(`<div class="d-flex justify-content-between align-items-center m-1 mt-2 border border-info rounded p-2">
+        <p class="text-white text-size m-0">${t.todoName}</p>
         <div id=${t.todoId} class="buttons">
         <button class="btn btn-sm btn-outline-success done-todo">${status}</button>
         <button type="button" class="btn btn-sm btn-outline-info edit-todo" data-toggle="modal" data-target="#exampleModalCenter">Edit</button>
