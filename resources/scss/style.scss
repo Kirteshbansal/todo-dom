@@ -1,8 +1,13 @@
-body {
+body,
+.modal-header {
   background: -webkit-linear-gradient(to right, #000000, #434343);
   background: linear-gradient(to right, #000000, #434343);
 }
 
 .text-size {
   font-size: 1.5em;
+}
+
+#filter-completed-todos {
+  display: none;
 }
