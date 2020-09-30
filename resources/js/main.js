@@ -13,13 +13,15 @@ const projectTitle = document.getElementById("project-todo-list");
 const todosContainer = document.getElementById("todos");
 const todoForm = document.getElementById("todo-form");
 const todoInput = document.getElementById("todo-input");
+const filterTodos = document.getElementById("filter-completed-todos");
+const showCompletedTodos = document.getElementById("show-comp-todo");
 
 // Eventlisteners
 projectForm.addEventListener("submit", addProject);
 projectsList.addEventListener("change", selectProject);
 deleteBtn.addEventListener("click", deleteProject);
 todoForm.addEventListener("submit", addTodo);
-
+filterTodos.addEventListener("click", filterCompletedTodos);
 // functions
 // Add a project into data
 function addProject(e) {
@@ -102,25 +104,13 @@ function addTodo(e) {
 // Create a todo
 function createTodo(value) {
   let keyId = Date.now().toString();
-  return { todoId: keyId, todoName: value };
+  return { todoId: keyId, todoName: value, completed: false };
 }
 
 // Display the available todos
 function displaytodo(projectId) {
-  let template = ``;
   if (todoAppData[projectId].todos.length > 0) {
-    return todoAppData[projectId].todos.forEach((t) => {
-      template = template.concat(`<div class="d-flex justify-content-between m-1 mt-3">
-    <p class="text-white text-size">${t.todoName}</p>
-    <div id=${t.todoId} class="buttons">
-    <button class="btn btn-sm btn-outline-info edit-todo">Edit</button>
-    <button class="btn btn-sm btn-outline-danger delete-todo">Delete</button>
-    </div>
-    </div>`);
-      todosContainer.innerHTML = template;
-      deleteTodo();
-      editTodo();
-    });
+    showcaseTodos(todoAppData[projectId].todos);
   } else {
     todosContainer.innerHTML = "";
   }
@@ -157,6 +147,7 @@ function editTodo() {
 //  Supportive function to edit a todo
 function editSelectedTodo(e) {
   todoInput.value = e.target.parentElement.previousElementSibling.innerHTML;
+  confirm("Are you sure to update.");
   let selectedTodoIndex = 0;
   todoAppData[selectedProjectId].todos.some((t, index) => {
     if (t.todoId == e.target.parentElement.getAttribute("id")) {
@@ -166,4 +157,64 @@ function editSelectedTodo(e) {
     }
   });
   displaytodo(selectedProjectId);
+}
+
+// Mark a todo complete
+function completeTodo() {
+  document
+    .querySelectorAll(".done-todo")
+    .forEach((b) => b.addEventListener("click", markCompleted));
+}
+
+// Suppotive function to mark a todo complete
+function markCompleted(e) {
+  const todoId = e.target.parentElement.getAttribute("id");
+  const todo = todoAppData[selectedProjectId].todos.filter(
+    (e) => e.todoId === todoId
+  )[0];
+  if (!todo.completed) {
+    todo.completed = true;
+    e.target.innerHTML = "Undone";
+  } else {
+    todo.completed = false;
+    e.target.innerHTML = "Done";
+  }
+}
+
+function filterCompletedTodos() {
+  const completedTodos = todoAppData[selectedProjectId].todos.filter(
+    (t) => t.completed
+  );
+
+  if (filterTodos.checked) {
+    if (completedTodos.length > 0) {
+      showcaseTodos(completedTodos);
+      showCompletedTodos.innerHTML = "Show All Todos";
+    } else {
+      todosContainer.innerHTML = "";
+      showCompletedTodos.innerHTML = "Show All Todos";
+    }
+  } else {
+    displaytodo(selectedProjectId);
+    showCompletedTodos.innerHTML = "Show Completed Todos";
+  }
+}
+
+function showcaseTodos(data) {
+  let template = ``;
+  return data.forEach((t) => {
+    let status = t.completed === true ? "Undone" : "Done";
+    template = template.concat(`<div class="d-flex justify-content-between m-1 mt-2">
+        <p class="text-white text-size">${t.todoName}</p>
+        <div id=${t.todoId} class="buttons">
+        <button class="btn btn-sm btn-outline-success done-todo">${status}</button>
+        <button class="btn btn-sm btn-outline-info edit-todo">Edit</button>
+        <button class="btn btn-sm btn-outline-danger delete-todo">Delete</button>
+        </div>
+        </div>`);
+    todosContainer.innerHTML = template;
+    completeTodo();
+    deleteTodo();
+    editTodo();
+  });
 }
